@@ -28,3 +28,20 @@ class Queue {
     }
 
 }
+
+
+function reverseQueue(queue) {
+   let stack = []
+   
+   while(!queue.isEmpty()) {
+       stack.push(queue.dequeue())
+   }
+ 
+   while(stack.length > 0) {
+      queue.enqueue(stack.pop())
+    
+   }
+  
+   return queue
+   
+}

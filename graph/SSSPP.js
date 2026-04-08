@@ -1,5 +1,3 @@
-const { version } = require("react");
-
 class Graph {
   constructor(isDirected = false) {
     this.numVertices = numVertices;
@@ -79,97 +77,23 @@ class Graph {
     return false;
   }
 
-  //space o(V) , and time complexity o(v^2 + e) ....
-  bfs(startVertext) {
+
+  SSSPP(startVertext) {
     const visited = new Set();
     const queue = [startVertext];
+    const privious = {};
 
     visited.add(startVertext);
+    privious[startVertext] = null;
     while (queue.length > 0) {
-      const currentVertext = queue.shift();
-      console.log(currentVertext);
+      let currentVertext = queue.shift()
       for (const neighbor of this.adjacencyList[currentVertext]) {
         if (!visited.has(neighbor)) {
           visited.add(neighbor);
           queue.push(neighbor);
+          privious[neighbor] = currentVertext;
         }
       }
     }
-  }
-
-  // o(v) --space ,  o(v + E) time complexity
-  dfs(startVertext) {
-    const visited = new Set();
-    const stack = [startVertext];
-
-    visited.add(startVertext);
-    while (stack.length > 0) {
-      const currentVertext = stack.pop();
-      console.log(currentVertext);
-      for (const neighbor of this.adjacencyList[currentVertext]) {
-        if (!visited.has(neighbor)) {
-          visited.add(neighbor);
-          stack.push(neighbor);
-        }
-      }
-    }
-  }
-
-  topologicalSortUtils(vertex, visited, stack) {
-    visited[vertex] = true;
-
-    for (let neighbor of this.adjacencyList[vertex]) {
-      if (!visited[neighbor]) {
-        this.topologicalSortUtils(neighbor, visited, stack);
-      }
-    }
-
-    stack.push(vertex);
-  }
-
-  topologicalSort() {
-    let stack = [];
-    let visited = {};
-
-        if (this.hasCycle()) {
-          console.log("Graph contains a cycle");
-          return;
-        }
-
-    for (let vertex in this.adjacencyList) {
-      visited[vertex] = false;
-    }
-
-    for (let vertex in this.adjacencyList) {
-      if (!visited[vertex]) {
-        this.topologicalSortUtils(vertex, visited, stack);
-      }
-    }
-  }
-
-  hasCycle() {
-    let visited = new Set();
-    let recStack = new Set();
-
-    const dfs = (vertex) => {
-      if (recStack.has(vertex)) return true;
-      if (visited.has(vertex)) return false;
-
-      visited.add(vertex);
-      recStack.add(vertex);
-
-      for (let neighbor of this.adjacencyList[vertex]) {
-        if (dfs(neighbor)) return true;
-      }
-
-      recStack.delete(vertex);
-      return false;
-    };
-
-    for (let vertex in this.adjacencyList) {
-      if (dfs(vertex)) return true;
-    }
-
-    return false;
   }
 }
